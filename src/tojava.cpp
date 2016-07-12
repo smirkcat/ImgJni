@@ -1,4 +1,5 @@
 ﻿#include "tojava.h"
+#include "Process.h"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -40,7 +41,7 @@ char* jstringTostring(JNIEnv* env, jstring jstr)
 }
 
 JNIEXPORT jstring JNICALL Java_org_img_processing_ImgJni_processing
-(JNIEnv *env, jobject obj, jbyteArray img){
+(JNIEnv *env, jobject obj, Process *ptr, jbyteArray img){
 	jboolean isCopy = JNI_FALSE;
 	int size = env->GetArrayLength(img);
 	jbyte * imagebuffer = env->GetByteArrayElements(img, &isCopy);
@@ -59,15 +60,79 @@ JNIEXPORT jstring JNICALL Java_org_img_processing_ImgJni_processing
 	string result=somefunc(src)
 	*/
 	//此处只是测试
-	std::stringstream ss;
-	std::string str;
-	ss << size;
-	ss >> str;
-	std::string result = "result,图片byte长度为"+str;
+
+	std::string result = ptr->process((char*)imagebuffer, size);
 	
+	//std::string result = "some";
 	//此处后面通用
 	env->ReleaseByteArrayElements(img, imagebuffer, JNI_COMMIT);
 	jstring  jresult = stringTojstring(env, result.c_str());
 	return jresult;
 }
 
+
+JNIEXPORT Process * JNICALL Java_org_img_processing_ImgJni_initPath
+(JNIEnv *, jobject object, jstring path){
+	Process * ptr = new Process();
+	return ptr;
+}
+
+JNIEXPORT Process * JNICALL Java_org_img_processing_ImgJni_init
+(JNIEnv *env, jobject object){
+	Process * ptr = new Process();
+	return ptr;
+}
+
+JNIEXPORT void JNICALL Java_org_img_processing_ImgJni_delete
+(JNIEnv *env, jobject object, Process * ptr){
+	delete ptr;
+}
+
+
+static int registerNativeMethods(JNIEnv* env, const char* className,
+	JNINativeMethod* gMethods, int numMethods)
+{
+	jclass clazz;
+
+	clazz = env->FindClass(className);
+	if (clazz == NULL) {
+		//LOGE("Native registration unable to find class '%s'", className); 
+		return JNI_FALSE;
+	}
+	if (env->RegisterNatives(clazz, gMethods, numMethods) < 0) {
+		//LOGE("RegisterNatives failed for '%s'", className); 
+		return JNI_FALSE;
+	}
+
+	return JNI_TRUE;
+}
+
+static int registerNatives(JNIEnv* env)
+{
+	if (!registerNativeMethods(env, classPathName,
+		methods, sizeof(methods) / sizeof(methods[0]))) {
+		return JNI_FALSE;
+	}
+	return JNI_TRUE;
+}
+
+/* This function will be call when the library first be loaded */
+JNIEXPORT jint JNICALL
+JNI_OnLoad(JavaVM *vm, void *reserved)
+{
+	UnionJNIEnvToVoid uenv;
+	JNIEnv* env = NULL;
+	jint result = -1;
+	if (vm->GetEnv((void**)&uenv.venv, JNI_VERSION_1_6) != JNI_OK) {
+		//LOGE("ERROR: GetEnv failed"); 
+		goto bail;
+	}
+	env = uenv.env;
+	if (registerNatives(env) != JNI_TRUE) {
+		//LOGE("ERROR: registerNatives failed"); 
+		goto bail;
+	}
+	result = JNI_VERSION_1_6;
+bail:
+	return result;
+}
