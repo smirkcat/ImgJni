@@ -1,7 +1,6 @@
 # include "Process.h"
 # include <sstream>
-
-std::string Process::process(char* imagebuffer, int size){
+string Process::process(char* imagebuffer, int size){
 	/* //通用函数 opencv环境
 	Mat src = imdecode(Mat(1, size, CV_8U, imagebuffer), IMREAD_COLOR);
 	if (!src.data)

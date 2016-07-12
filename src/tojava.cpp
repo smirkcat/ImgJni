@@ -1,8 +1,6 @@
 ﻿#include "tojava.h"
 #include "Process.h"
 #include <string>
-#include <iostream>
-#include <sstream>
 
 /*
 stringTojstring 和 jstringTostring 是为了防止乱码的
@@ -59,8 +57,7 @@ JNIEXPORT jstring JNICALL Java_org_img_processing_ImgJni_processing
 	//在这里做相关处理
 	string result=somefunc(src)
 	*/
-	//此处只是测试
-
+	//此处只是测试 编写测试程序请修改process函数
 	std::string result = ptr->process((char*)imagebuffer, size);
 	
 	//std::string result = "some";

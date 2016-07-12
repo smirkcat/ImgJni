@@ -7,13 +7,10 @@ using namespace std;
 class Process{
 	int sign;
 public:
-	~Process()
-	{
-
+	~Process(){
 	}
 	Process(){
-
 	}
-	std::string process(char* imagebuffer, int size);
+	string process(char*, int);
 };
 #endif
