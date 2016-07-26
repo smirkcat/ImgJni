@@ -5,12 +5,12 @@ using namespace std;
 #define _Included_Process
 
 class Process{
-	int sign;
+	//成员sometype pr
 public:
 	~Process(){
 	}
-	Process(){
-	}
+	Process();
+	Process(string);
 	string process(char*, int);
 };
 #endif
