@@ -1,5 +1,5 @@
 ﻿#include "tojava.h"
-#include "Process.h"
+#include "process.h"
 #include <string>
 
 /*
@@ -76,7 +76,8 @@ JNIEXPORT void JNICALL Java_org_img_processing_ImgJni_delete
 	delete ptr;
 }
 
-
+//后面为代码关键部分
+//注册函数签名函数
 static int registerNativeMethods(JNIEnv* env, const char* className,
 	JNINativeMethod* gMethods, int numMethods)
 {
@@ -93,6 +94,7 @@ static int registerNativeMethods(JNIEnv* env, const char* className,
 	return JNI_TRUE;
 }
 
+//调用函数注册签名函数
 static int registerNatives(JNIEnv* env)
 {
 	if (!registerNativeMethods(env, classPathName,

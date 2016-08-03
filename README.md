@@ -1,3 +1,6 @@
+### 如果不知道jni如何使用生成，请看项目[scalacpptest][1]中的java代码解释部分
+### 如何加载jar包中dll,dylib,so,请看项目[loaddll][2]
+
 ### 这个例子是示例jni调用c++自定义类
 + 换个意思就是java能通过jni调用c++类
 + 思想是返回c++类的指针地址，调用对应函数时，传入指针地址调用函数
@@ -8,7 +11,7 @@
 ```java
 package org.img.processing;
 
-import org.img.utils.JarDllJava;
+import org.smirkcat.loaddll;
 
 /**
  * @author smirklijie
@@ -28,7 +31,7 @@ public class ImgJni {
     }
     /**
      * 实现图片的传图，返回相关信息
-     * 
+     * @param ptrNative
      * @param img
      * @return
      */
@@ -71,3 +74,7 @@ public class ImgJni {
 ### 参考网址
 + <http://www.2cto.com/kf/201207/143036.html>
 + <http://blog.csdn.net/imyfriend/article/details/9117917>
+
+
+[1]: https://git.oschina.net/smirkcat/scalacpptest.git
+[2]: https://git.oschina.net/smirkcat/loaddll.git

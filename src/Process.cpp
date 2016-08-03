@@ -1,4 +1,4 @@
-# include "Process.h"
+# include "process.h"
 # include <sstream>
 string Process::process(char* imagebuffer, int size){
 	/* //通用函数 opencv环境
@@ -10,7 +10,6 @@ string Process::process(char* imagebuffer, int size){
 	string result=somefunc(src)
 	*/
 	//下面是测试
-	this->sign = size;
 	std::stringstream ss;
 	std::string str;
 	ss << size;
@@ -20,14 +19,9 @@ string Process::process(char* imagebuffer, int size){
 }
 
 Process::Process(){
-	//一些预处理
+	
 }
 
 Process::Process(string path){
-	///   Process(); 是否调用默认构造函数
-	//path是模型文件的根目录绝对路径，使用/分割,方式如下
-	//成员初始化 pr ，加载一些模型文件; 
-	//pr.LoadANN(path + "/ann.xml");
-	//pr.LoadChineseANN(path + "/ann_chinese.xml");
-	//pr.LoadSVM(path + "/svm.xml");
+	//new (this) Process(); 是否调用默认构造函数
 }
